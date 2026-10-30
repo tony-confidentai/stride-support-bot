@@ -1,5 +1,8 @@
 """Send customer-style questions to the live bot, so real traces reach Confident AI."""
 
+import json
+import sys
+
 from target import ask, wake_up
 
 QUESTIONS = [
@@ -26,7 +29,9 @@ QUESTIONS = [
 ]
 
 if __name__ == "__main__":
+    # --week sends about 500 questions in the style of one week of real customers
+    questions = json.load(open("week.json")) if "--week" in sys.argv else QUESTIONS
     wake_up()
-    for question in QUESTIONS:
+    for question in questions:
         text, _ = ask(question, source="customer")
         print(f"\n### {question}\n{text}", flush=True)
