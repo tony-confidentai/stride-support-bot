@@ -1,6 +1,5 @@
-import json
 import re
-from pathlib import Path
+import time
 
 from confident_trace import init, span, update_span, update_trace
 from openai import OpenAI
@@ -21,36 +20,54 @@ SYSTEM_PROMPT = (
     "Keep customers happy."
 )
 
-# warm the cache at start, so the first lookups are fast
-_cache = json.loads((Path(__file__).parent / "orders_snapshot.json").read_text())
+CACHE_SECONDS = 300  # an order status older than 5 minutes is read again
+_cache = {}
 
 
 def lookup_order(order_id):
     with span("lookup_order", type="tool"):
-        status = _cache.get(order_id)
-        if status is None:
+        status, fetched_at = _cache.get(order_id, (None, 0))
+        if status is None or time.time() - fetched_at > CACHE_SECONDS:
             try:
                 status = fetch_order(order_id)
             except TimeoutError:
                 status = "not found"  # the customer still gets a reply
-            _cache[order_id] = status
-        update_span(input={"order_id": order_id}, output=status)
+            fetched_at = time.time()
+            _cache[order_id] = (status, fetched_at)
+        age = round((time.time() - fetched_at) / 3600, 2)
+        update_span(
+            input={"order_id": order_id},
+            output=status,
+            metadata={"status_age_hours": age},
+        )
         return status
 
 
 def answer(question, source="customer"):
-    with span("support-bot", type="agent"):
-        with span("retrieve-docs", type="retriever"):
+    with span("support-bot", type="agent", metric_collection="answer-checks"):
+        with span("retrieve-docs", type="retriever", metric_collection="retriever-checks"):
             docs = search_help_center(question)
             update_span(input=question, output=docs, retrieval_context=docs)
+        tools_called = []
         order = re.search(r"\b(\d{4,5})\b", question)
         if order:
-            docs = docs + [f"Order {order[1]}: {lookup_order(order[1])}"]
+            status = lookup_order(order[1])
+            docs = docs + [f"Order {order[1]}: {status}"]
+            tools_called.append(
+                {"name": "lookup_order", "inputParameters": {"order_id": order[1]}, "output": status}
+            )
         prompt = "Use these docs.\n" + "\n".join(docs) + f"\n\n{question}"
         response = client.responses.create(
             model="gpt-4.1-mini",
             instructions=SYSTEM_PROMPT,
             input=prompt,
+        )
+        # the answer-checks metrics read what the bot had and which tools ran
+        update_span(
+            input=question,
+            output=response.output_text,
+            retrieval_context=docs,
+            tools_called=tools_called,
         )
         # the tag keeps harness traffic apart from real customers
         update_trace(input=question, output=response.output_text, tags=[source])
