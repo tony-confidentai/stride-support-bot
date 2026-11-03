@@ -16,6 +16,11 @@ def wake_up():
 
 
 def ask(question, source="harness"):
+    answer, sources, _ = ask_with_tools(question, source)
+    return answer, sources
+
+
+def ask_with_tools(question, source="harness"):
     for attempt in range(3):
         response = requests.post(
             f"{URL}/chat",
@@ -30,4 +35,4 @@ def ask(question, source="harness"):
         # keep the server's reason, for example "OpenAI unavailable: RateLimitError"
         raise RuntimeError(f"/chat returned {response.status_code}: {response.text}")
     data = response.json()
-    return data["answer"], data["sources"]
+    return data["answer"], data["sources"], data.get("tools_called", [])

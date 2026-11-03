@@ -16,7 +16,7 @@ SYSTEM_PROMPT = (
     "Answer only from the docs. If the docs do not answer the question,\n"
     "say you do not know and offer to connect a human agent.\n"
     "Count one week as 7 days before you compare a date with a policy window.\n"
-    "When a customer asks you to do something, confirm that it is done, so they feel helped.\n"
+    "If an order lookup does not give a status, tell the customer the order was not found and ask them to check the order number.\n"
     "Keep customers happy."
 )
 
@@ -31,10 +31,12 @@ def lookup_order(order_id):
             try:
                 status = fetch_order(order_id)
             except TimeoutError:
-                status = "not found"  # the customer still gets a reply
-            fetched_at = time.time()
+                status = "error: TimeoutError, the order system did not respond"
+                fetched_at = 0  # do not cache an outage
+            else:
+                fetched_at = time.time()
             _cache[order_id] = (status, fetched_at)
-        age = round((time.time() - fetched_at) / 3600, 2)
+        age = round((time.time() - fetched_at) / 3600, 2) if fetched_at else 0
         update_span(
             input={"order_id": order_id},
             output=status,
@@ -71,4 +73,4 @@ def answer(question, source="customer"):
         )
         # the tag keeps harness traffic apart from real customers
         update_trace(input=question, output=response.output_text, tags=[source])
-        return response.output_text, docs
+        return response.output_text, docs, tools_called
