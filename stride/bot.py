@@ -44,8 +44,8 @@ def lookup_order(order_id):
 
 
 def answer(question, source="customer"):
-    with span("support-bot", type="agent", metric_collection="answer-checks"):
-        with span("retrieve-docs", type="retriever", metric_collection="retriever-checks"):
+    with span("support-bot", type="agent"):
+        with span("retrieve-docs", type="retriever"):
             docs = search_help_center(question)
             update_span(input=question, output=docs, retrieval_context=docs)
         tools_called = []
