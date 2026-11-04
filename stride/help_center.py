@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 from openai import OpenAI
 
 DOCS = [
@@ -11,7 +14,9 @@ DOCS = [
     "Gift cards cannot be returned or exchanged.",
 ]
 
-_doc_vectors = None
+# the index is built once with build_index() and saved, so a start embeds nothing
+INDEX = Path(__file__).parent / "help_center_index.json"
+_index = None
 
 
 def embed(texts):
@@ -19,12 +24,16 @@ def embed(texts):
     return [d.embedding for d in data]
 
 
+def build_index(docs=DOCS):
+    INDEX.write_text(json.dumps([{"doc": d, "vector": v} for d, v in zip(docs, embed(docs))]))
+
+
 def search_help_center(question, k=3):
     # match by meaning, so "send them back" finds the return policy
-    global _doc_vectors
-    if _doc_vectors is None:
-        _doc_vectors = embed(DOCS)
+    global _index
+    if _index is None:
+        _index = json.loads(INDEX.read_text())
     q = embed([question])[0]
-    scores = [sum(a * b for a, b in zip(q, v)) for v in _doc_vectors]
-    ranked = sorted(zip(scores, DOCS), reverse=True)
+    scores = [sum(a * b for a, b in zip(q, row["vector"])) for row in _index]
+    ranked = sorted(zip(scores, (row["doc"] for row in _index)), reverse=True)
     return [doc for _, doc in ranked[:k]]
