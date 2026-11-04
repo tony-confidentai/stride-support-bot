@@ -25,5 +25,8 @@ jobs:
         working-directory: harness
         env:
           DEEPEVAL_RESULTS_FOLDER: ../runs
+      # the failures found in production: fail when more than 1 of them fails again
+      - run: python production_failures.py --dataset stride-production-failures --collection stride-failure-checks --name pr-${{ github.event.number }}-production --max-fails 1
+        working-directory: harness
       # fail the check only when a golden that always passed on main now fails
       - run: python harness/compare.py harness/baseline.json runs/test_run_*.json

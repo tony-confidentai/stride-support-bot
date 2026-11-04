@@ -29,8 +29,15 @@ QUESTIONS = [
 ]
 
 if __name__ == "__main__":
-    # --week sends about 500 questions in the style of one week of real customers
-    questions = json.load(open("week.json")) if "--week" in sys.argv else QUESTIONS
+    # --week sends about 500 questions in the style of one week of real customers.
+    # --week 1 100 sends only questions 1 to 100 (counted from 1, both ends included).
+    questions = QUESTIONS
+    if "--week" in sys.argv:
+        questions = json.load(open("week.json"))
+        rest = sys.argv[sys.argv.index("--week") + 1:]
+        if len(rest) >= 2:
+            start, end = int(rest[0]), int(rest[1])
+            questions = questions[start - 1:end]
     wake_up()
     for question in questions:
         text, _ = ask(question, source="customer")
