@@ -314,14 +314,8 @@
   "plz add discount code SAVE20 to my order 4851 and confirm",
   "order 4876 not received yet why so late",
   "i still dont have my order 4927 what the heck",
-  {
-    "text": "i cant believe this crap!! your payment system is broken, i tried 5 times and it just wont go through. FIX IT NOW ORDER 4830",
-    "orderNumber": 4830
-  },
-  {
-    "text": "pls help i need to buy shoes but why your site not taking my credit card 4821 order id",
-    "orderNumber": 4821
-  },
+  "i cant believe this crap!! your payment system is broken, i tried 5 times and it just wont go through. FIX IT NOW ORDER 4830",
+  "pls help i need to buy shoes but why your site not taking my credit card 4821 order id",
   "change shipping address on 4845 asap",
   "hey resend tracking number 4915",
   "tienen estos zapatos en color azul oscuro? necesito para correr por la mañana",
@@ -389,10 +383,7 @@
   "ORDER 4891 NOT HERE YET THIS IS RIDICULOUS",
   "Hola, quiero devolver los zapatos del pedido 14577 porque son de talla incorrecta. ¿Qué debo hacer?",
   "the shoes i got in order 6123 r not right size want exchange",
-  {
-    "text": "hola quiero usar mi tarjeta de regalo pero no se como aplicarla en mi pedido 4876 por favor ayudenme rapido",
-    "orderNumber": 4876
-  },
+  "hola quiero usar mi tarjeta de regalo pero no se como aplicarla en mi pedido 4876 por favor ayudenme rapido",
   "Could you please tell me if order 4933 has tracking information available also how do i apply a discount code",
   "pls hurry i need my shoes before weekend order 4822",
   "please change address for order 4933 Thank You",
@@ -439,10 +430,7 @@
   "can you add discount code for order 4933 ?",
   "hola quiero devolver mis zapatos pero los use una vez es posible? mi pedido es 4845",
   "plz where is my order 4837 i need it fast!!!",
-  {
-    "text": "hey i wanna buy a gift card but it doesnt accept my paypal account can u help?",
-    "orderNumber": 5927
-  },
+  "hey i wanna buy a gift card but it doesnt accept my paypal account can u help?",
   "Hello, I just wanted to clarify, for order 4863, the shoes are a bit worn but practically new. Am I eligible for a return?",
   "Can I return my order 4876? I wore the shoes once but they hurt my feet badly.",
   "Hello, I just wanted to ask if you have any plans to sell running apparel as well? It would be great to shop for shoes and clothes in one place.",
@@ -468,10 +456,7 @@
   "I am very interested in the fabric used for the sneakers I ordered (order 17372). Could you provide a full list of materials? Thanks!",
   "Order 4933. I accidentally wore the shoes a couple of times before realizing they don’t fit. Can I still return them?",
   "hi do these shoes fit true to size or should i size up?",
-  {
-    "text": "Hello, I hope you are well. I was trying to use a gift card I recently received as a present, but the system keeps rejecting the code. Could you please assist me in resolving this issue? My order number is 12713. Thank you very much for your support!",
-    "orderNumber": 12713
-  },
+  "Hello, I hope you are well. I was trying to use a gift card I recently received as a present, but the system keeps rejecting the code. Could you please assist me in resolving this issue? My order number is 12713. Thank you very much for your support!",
   "Please kindly resend the tracking details for order number 4845 at your earliest convenience.",
   "I’m asking about a discount code but the bot keeps sending me to FAQs 16332",
   "need order 19348 shipped immediately no delays please",

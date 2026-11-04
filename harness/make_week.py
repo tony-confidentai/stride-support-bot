@@ -47,7 +47,9 @@ def batch(intent, n):
         "Return JSON: {\"messages\": [..]}."
     )
     out = client.responses.create(model="gpt-4.1-mini", input=prompt, text={"format": {"type": "json_object"}})
-    return json.loads(out.output_text)["messages"][:n]
+    messages = json.loads(out.output_text)["messages"][:n]
+    # the model sometimes returns {"text": ...} instead of a plain string
+    return [m["text"] if isinstance(m, dict) else m for m in messages]
 
 
 if __name__ == "__main__":
