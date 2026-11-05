@@ -1,7 +1,7 @@
 # Stride support bot
 
 A small AI support bot for a made-up shoe store, used in the
-[Evals and Tracing series](https://www.linkedin.com/pulse/evals-tracing-101-tony-cueva-bravo-jlhae/).
+[Evals and Tracing series](https://x.com/tonycueva/status/2112933068524617770).
 Part 2, ["Build Your Eval Harness"](https://x.com/tonycueva/status/2115089591824744957), builds an eval harness around it.
 Part 3, "Trace Your AI Agent", traces the agent in production and turns its failures into tests.
 
