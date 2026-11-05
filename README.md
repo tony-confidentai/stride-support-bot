@@ -3,7 +3,7 @@
 A small AI support bot for a made-up shoe store, used in the
 [Evals and Tracing series](https://x.com/tonycueva/status/2112933068524617770).
 Part 2, ["Build Your Eval Harness"](https://x.com/tonycueva/status/2115089591824744957), builds an eval harness around it.
-Part 3, "Trace Your AI Agent", traces the agent in production and turns its failures into tests.
+Part 3, ["Trace Your AI Agent"](https://x.com/tonycueva/status/2118403793176109121), traces the agent in production and turns its failures into tests.
 
 - `stride/` is the app: a FastAPI server (`POST /chat`), a help center search, and the bot, traced with `confident-trace`.
 - `harness/` is the eval harness: it calls the running app over HTTP, scores every answer with DeepEval, and compares runs. `production_failures.py` runs the failures found in production as tests.
