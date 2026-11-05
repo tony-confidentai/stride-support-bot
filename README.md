@@ -2,7 +2,7 @@
 
 A small AI support bot for a made-up shoe store, used in the
 [Evals and Tracing series](https://www.linkedin.com/pulse/evals-tracing-101-tony-cueva-bravo-jlhae/).
-Part 2, "Build Your Eval Harness", builds an eval harness around it.
+Part 2, ["Build Your Eval Harness"](https://x.com/tonycueva/status/2115089591824744957), builds an eval harness around it.
 Part 3, "Trace Your AI Agent", traces the agent in production and turns its failures into tests.
 
 - `stride/` is the app: a FastAPI server (`POST /chat`), a help center search, and the bot, traced with `confident-trace`.
